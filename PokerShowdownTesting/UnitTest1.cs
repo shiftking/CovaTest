@@ -294,6 +294,375 @@ namespace PokerShowdownTesting
             Assert.AreEqual(2, PokerShowdown.PokerShowdown.GetWinner(players).Count);
 
         }
+        [TestMethod]
+        public void TestGetWinnersHighCardWin()
+
+        {
+
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(12, 'S'));
+            hand.Add(new Card(10, 'C'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(9, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(9, 'H'));
+            hand.Add(new Card(10, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(3, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+
+
+            Assert.AreEqual(player1, PokerShowdown.PokerShowdown.GetWinner(players).ToArray()[0]);
+
+        }
+        [TestMethod]
+        public void TestGetWinnersFlushWin()
+
+        {
+
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(12, 'D'));
+            hand.Add(new Card(10, 'D'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(9, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(9, 'H'));
+            hand.Add(new Card(4, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+
+
+            Assert.AreEqual(player1, PokerShowdown.PokerShowdown.GetWinner(players).ToArray()[0]);
+
+        }
+        [TestMethod]
+        public void TestGetWinnersThreeOfAKindWin()
+
+        {
+
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(12, 'D'));
+            hand.Add(new Card(10, 'S'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(9, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(7, 'H'));
+            hand.Add(new Card(7, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+
+
+            Assert.AreEqual(player2, PokerShowdown.PokerShowdown.GetWinner(players).ToArray()[0]);
+
+        }
+        [TestMethod]
+        public void TestGetWinnersOnePairWin()
+
+        {
+
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(12, 'D'));
+            hand.Add(new Card(10, 'S'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(9, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(7, 'H'));
+            hand.Add(new Card(2, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+            hand = new List<Card>();
+            hand.Add(new Card(13, 'H'));
+            hand.Add(new Card(12, 'H'));
+            hand.Add(new Card(10, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'C'));
+            PokerShowdown.Player player3 = new Player(hand, "Bill");
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+            players.Add(player3);
+
+
+            Assert.AreEqual(player2, PokerShowdown.PokerShowdown.GetWinner(players).ToArray()[0]);
+
+        }
+        [TestMethod]
+        public void TestGetWinnersFlushWinTie()
+
+        {
+
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(12, 'D'));
+            hand.Add(new Card(10, 'D'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(9, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(7, 'H'));
+            hand.Add(new Card(2, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+            hand = new List<Card>();
+            hand.Add(new Card(13, 'H'));
+            hand.Add(new Card(12, 'H'));
+            hand.Add(new Card(10, 'H'));
+            hand.Add(new Card(1, 'H'));
+            hand.Add(new Card(9, 'H'));
+            PokerShowdown.Player player3 = new Player(hand, "Bill");
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+            players.Add(player3);
+
+
+            Assert.AreEqual(2, PokerShowdown.PokerShowdown.GetWinner(players).Count);
+
+        }
+        [TestMethod]
+        public void TestGetWinnersThreeofKindWinTie()
+
+        {
+            ///This should never happen in a real game since ther can only be 4 of one rank of card.
+            ///
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(13, 'S'));
+            hand.Add(new Card(13, 'H'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(9, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(11, 'H'));
+            hand.Add(new Card(2, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+            hand = new List<Card>();
+            hand.Add(new Card(13, 'H'));
+            hand.Add(new Card(13, 'C'));
+            hand.Add(new Card(13, 'H'));
+            hand.Add(new Card(1, 'H'));
+            hand.Add(new Card(9, 'H'));
+            PokerShowdown.Player player3 = new Player(hand, "Bill");
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+            players.Add(player3);
+
+
+            Assert.AreEqual(2, PokerShowdown.PokerShowdown.GetWinner(players).Count);
+
+        }
+        [TestMethod]
+        public void TestGetWinnersOnePairWinTie()
+
+        {
+
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(13, 'S'));
+            hand.Add(new Card(10, 'S'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(9, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(11, 'H'));
+            hand.Add(new Card(2, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+            hand = new List<Card>();
+            hand.Add(new Card(13, 'H'));
+            hand.Add(new Card(13, 'C'));
+            hand.Add(new Card(10, 'H'));
+            hand.Add(new Card(1, 'H'));
+            hand.Add(new Card(9, 'H'));
+            PokerShowdown.Player player3 = new Player(hand, "Bill");
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+            players.Add(player3);
+
+
+            Assert.AreEqual(2, PokerShowdown.PokerShowdown.GetWinner(players).Count);
+
+        }
+        [TestMethod]
+        public void TestGetWinnersHighCardWinTie()
+
+        {
+
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(9, 'S'));
+            hand.Add(new Card(2, 'S'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(9, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(11, 'H'));
+            hand.Add(new Card(2, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+            hand = new List<Card>();
+            hand.Add(new Card(13, 'H'));
+            hand.Add(new Card(9, 'H'));
+            hand.Add(new Card(2, 'H'));
+            hand.Add(new Card(1, 'H'));
+            hand.Add(new Card(9, 'C'));
+            PokerShowdown.Player player3 = new Player(hand, "Bill");
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+            players.Add(player3);
+
+
+            Assert.AreEqual(2, PokerShowdown.PokerShowdown.GetWinner(players).Count);
+
+        }
+
+        [TestMethod]
+        public void TestGetWinnersFlushWithThreeOfKindWin()
+
+        {
+
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(9, 'S'));
+            hand.Add(new Card(2, 'S'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(9, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(7, 'H'));
+            hand.Add(new Card(7, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+            hand = new List<Card>();
+            hand.Add(new Card(13, 'H'));
+            hand.Add(new Card(9, 'H'));
+            hand.Add(new Card(2, 'H'));
+            hand.Add(new Card(1, 'H'));
+            hand.Add(new Card(9, 'H'));
+            PokerShowdown.Player player3 = new Player(hand, "Bill");
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+            players.Add(player3);
+
+
+            Assert.AreEqual(player3, PokerShowdown.PokerShowdown.GetWinner(players).ToArray()[0]);
+
+        }
+        [TestMethod]
+        public void TestGetWinnersTwoFlushOneWin()
+
+        {
+
+            List<PokerShowdown.Card> hand = new List<Card>();
+            hand.Add(new Card(13, 'D'));
+            hand.Add(new Card(9, 'D'));
+            hand.Add(new Card(2, 'D'));
+            hand.Add(new Card(1, 'D'));
+            hand.Add(new Card(5, 'D'));
+            PokerShowdown.Player player1 = new Player(hand, "Dylan");
+
+            hand = new List<Card>();
+            hand.Add(new Card(7, 'C'));
+            hand.Add(new Card(7, 'H'));
+            hand.Add(new Card(7, 'D'));
+            hand.Add(new Card(1, 'C'));
+            hand.Add(new Card(9, 'S'));
+            PokerShowdown.Player player2 = new Player(hand, "Robert");
+
+            hand = new List<Card>();
+            hand.Add(new Card(12, 'H'));
+            hand.Add(new Card(9, 'H'));
+            hand.Add(new Card(2, 'H'));
+            hand.Add(new Card(1, 'H'));
+            hand.Add(new Card(9, 'H'));
+            PokerShowdown.Player player3 = new Player(hand, "Bill");
+
+
+            List<Player> players = new List<Player>();
+            players.Add(player1);
+            players.Add(player2);
+            players.Add(player3);
+
+
+            Assert.AreEqual(player1, PokerShowdown.PokerShowdown.GetWinner(players).ToArray()[0]);
+
+        }
+
 
     }
 
