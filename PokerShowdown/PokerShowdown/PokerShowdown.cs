@@ -32,35 +32,43 @@ namespace PokerShowdown
             List<Player> winners = new List<Player>();
             foreach(Player player in players)
             {
+                
                 //iterates through the players and determines the winners
                 // if the list doesn't have a winner, add the next one to the list
-                if(winners.Count == 0)
+                
+                if (winners.Count == 0)
                 {
                     winners.Add(player);
+                    
                 }
                 else
                 {
-                    foreach(Player winner in winners)
+                    
+                    foreach(Player winner in winners.ToList())
                     {
                         if(winner.GetHand() < player.GetHand())
                         {
-                            winners = new List<Player>();
 
+                            winners.Clear();                            
                             winners.Add(player);
+                            break;
+
                             //if the next player is a higher rank then we know that all other 
                             //winners are not winners, so the winner list get cleared, and this new one gets added
-                            if (winner.GetHand() == player.GetHand())
-                            {
-                                winners.Add(player);
-                                //if the current player and the top winner are the same, than we add it to the list of winners
-                                return null;
-                            }
+
+                        }
+                        if (winner.GetHand() == player.GetHand())
+                        {
+                            winners.Add(player);
+                            //if the current player and the top winner are the same, than we add it to the list of winners
+
                         }
                     }
+                    
                 }
                 
             }
-            return null;
+            return winners;
         }
 
         
@@ -73,9 +81,9 @@ namespace PokerShowdown
         private Hand hand;
 
 
-        public Player(List<Card> _hand)
-        {   
-
+        public Player(List<Card> _hand,String _name)
+        {
+            this.name = _name;
             if(_hand.Count != 5)
             {
                 throw new Exception("Not the correct number of cards");
@@ -85,6 +93,10 @@ namespace PokerShowdown
         public  Hand GetHand()
         {
             return hand;
+        }
+        public String getName()
+        {
+            return this.name;
         }
         
     }
@@ -168,31 +180,37 @@ namespace PokerShowdown
         {
             if (a.IsFlush() && b.IsFlush())
             {
-                foreach(Card cardA in a.cards)
+                for (int i = 0; i < a.cards.Count; i++)
                 {
-                    foreach(Card cardB in b.cards)
+                    if (a.cards.ToArray()[i] != a.cards.ToArray()[i])
                     {
-                        if (cardA != cardB)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-                    
                 }
                 return true;
             }
             if (a.IsThreeofKind() && b.IsThreeofKind())
             {
-                if (a.GetDouplicate() > b.GetDouplicate())
+                for (int i = 0; i < a.cards.Count; i++)
                 {
-                    return true;
+                    if (a.cards.ToArray()[i] != a.cards.ToArray()[i])
+                    {
+                        return false;
+                    }
                 }
                 return true;
             }
             if (a.IsOnePair() && b.IsOnePair())
             {
-                if (a.GetDouplicate() > b.GetDouplicate())
+                if (a.GetDouplicate() == b.GetDouplicate())
                 {
+                    for(int i = 0; i < a.cards.Count; i++)
+                    {
+                        if(a.cards.ToArray()[i] != a.cards.ToArray()[i])
+                        {
+                            return false;
+                        }
+                    }
                     return true;
                 }
 
@@ -209,33 +227,36 @@ namespace PokerShowdown
             var b = o as Hand;
             if (this.IsFlush() && b.IsFlush())
             {
-                foreach (Card cardA in this.cards)
+                for (int i = 0; i < this.cards.Count; i++)
                 {
-                    foreach (Card cardB in b.cards)
+                    if (this.cards.ToArray()[i] != b.cards.ToArray()[i])
                     {
-                        if (cardA != cardB)
-                        {
-                            return false;
-                        }
+                        return false;
                     }
-
                 }
                 return true;
             }
             if (this.IsThreeofKind() && b.IsThreeofKind())
             {
-                if (this.GetDouplicate() > b.GetDouplicate())
+                for (int i = 0; i < b.cards.Count; i++)
                 {
-                    return true;
+                    if (this.cards.ToArray()[i] != b.cards.ToArray()[i])
+                    {
+                        return false;
+                    }
                 }
                 return true;
             }
             if (this.IsOnePair() && b.IsOnePair())
             {
-                if (this.GetDouplicate() > b.GetDouplicate())
-                {
+                for(int i = 0; i < b.cards.Count; i++)
+                    {
+                        if(this.cards.ToArray()[i] != b.cards.ToArray()[i])
+                        {
+                            return false;
+                        }
+                    }
                     return true;
-                }
 
             }
 
@@ -270,9 +291,11 @@ namespace PokerShowdown
                 {
                     return true;
                 }
+                
+
 
             }
-            return true;
+            return false;
         }
         public static bool operator > (Hand a, Hand b)
         {
