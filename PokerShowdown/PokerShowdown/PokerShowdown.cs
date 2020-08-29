@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 /// <summary>
@@ -56,13 +57,13 @@ namespace PokerShowdown
                             //if the next player is a higher rank then we know that all other 
                             //winners are not winners, so the winner list get cleared, and this new one gets added
 
-                        }
-                        if (winner.GetHand() == player.GetHand())
+                        }else if (winner.GetHand() == player.GetHand())
                         {
                             winners.Add(player);
                             //if the current player and the top winner are the same, than we add it to the list of winners
 
                         }
+                        
                     }
                     
                 }
@@ -106,8 +107,10 @@ namespace PokerShowdown
         
         public Hand(List<Card> _cards)
         {
+            
             this.cards = _cards;
             this.cards.Sort();
+
         }
         public bool IsFlush()
         {
@@ -178,45 +181,80 @@ namespace PokerShowdown
         }
         public static bool operator == (Hand a, Hand b)
         {
-            if (a.IsFlush() && b.IsFlush())
+            if (a.IsFlush())
             {
-                for (int i = 0; i < a.cards.Count; i++)
-                {
-                    if (a.cards.ToArray()[i] != a.cards.ToArray()[i])
+                if (b.IsFlush()) { 
+                    for (int i = 0; i < a.cards.Count; i++)
                     {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            if (a.IsThreeofKind() && b.IsThreeofKind())
-            {
-                for (int i = 0; i < a.cards.Count; i++)
-                {
-                    if (a.cards.ToArray()[i] != a.cards.ToArray()[i])
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            if (a.IsOnePair() && b.IsOnePair())
-            {
-                if (a.GetDouplicate() == b.GetDouplicate())
-                {
-                    for(int i = 0; i < a.cards.Count; i++)
-                    {
-                        if(a.cards.ToArray()[i] != a.cards.ToArray()[i])
+                        if (a.getCard(i) != a.getCard(i))
                         {
                             return false;
                         }
                     }
                     return true;
                 }
+                return false;
+                
+            }
+            else if (b.IsFlush())
+            {
+                return false;
+            }
+            if (a.IsThreeofKind())
+            {
+                if (b.IsThreeofKind())
+                {
+                    for (int i = 0; i < a.cards.Count; i++)
+                    {
+                        if (a.getCard(i) != a.getCard(i))
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+                return false;
+            }else if (b.IsThreeofKind())
+            {
+                return false;
+            }
+            if (a.IsOnePair())
+            {
+                if (b.IsOnePair())
+                {
+                    if (a.GetDouplicate() == b.GetDouplicate())
+                    {
+                        for (int i = 0; i < a.cards.Count; i++)
+                        {
+                            if (a.getCard(i) != a.getCard(i))
+                            {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }
+                return false;
 
             }
+            else if (b.IsOnePair())
+            {
+                return false;
+            }
+            if (a.HighCard() == b.HighCard())
+            {
+                for (int i = 0; i < b.cards.Count; i++)
+                {
+                    if (a.getCard(i) != b.getCard(i))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
 
-            return true;
+            return false;
         }
         public override bool Equals(object o)
         {
@@ -225,42 +263,82 @@ namespace PokerShowdown
                 return false;
             }
             var b = o as Hand;
-            if (this.IsFlush() && b.IsFlush())
+            if (this.IsFlush())
             {
-                for (int i = 0; i < this.cards.Count; i++)
+                if (b.IsFlush())
                 {
-                    if (this.cards.ToArray()[i] != b.cards.ToArray()[i])
+                    for (int i = 0; i < this.cards.Count; i++)
                     {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            if (this.IsThreeofKind() && b.IsThreeofKind())
-            {
-                for (int i = 0; i < b.cards.Count; i++)
-                {
-                    if (this.cards.ToArray()[i] != b.cards.ToArray()[i])
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            if (this.IsOnePair() && b.IsOnePair())
-            {
-                for(int i = 0; i < b.cards.Count; i++)
-                    {
-                        if(this.cards.ToArray()[i] != b.cards.ToArray()[i])
+                        if (this.getCard(i) != this.getCard(i))
                         {
                             return false;
                         }
                     }
                     return true;
+                }
+                return false;
 
             }
+            else if (b.IsFlush())
+            {
+                return false;
+            }
+            if (this.IsThreeofKind())
+            {
+                if (b.IsThreeofKind())
+                {
+                    for (int i = 0; i < this.cards.Count; i++)
+                    {
+                        if (this.getCard(i) != this.getCard(i))
+                        {
+                            return false;
+                        }
+                    }
 
-            return true;
+                    return true;
+                }
+                return false;
+            }
+            else if (b.IsThreeofKind())
+            {
+                return false;
+            }
+            if (this.IsOnePair())
+            {
+                if (b.IsOnePair())
+                {
+                    if (this.GetDouplicate() == b.GetDouplicate())
+                    {
+                        for (int i = 0; i < this.cards.Count; i++)
+                        {
+                            if (this.getCard(i) != this.getCard(i))
+                            {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }
+                return false;
+
+            }
+            else if (b.IsOnePair())
+            {
+                return false;
+            }
+            if (this.HighCard() == b.HighCard())
+            {
+                for (int i = 0; i < b.cards.Count; i++)
+                {
+                    if (this.getCard(i) != b.getCard(i))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            return false;
         }
         public override int GetHashCode()
         {
@@ -269,61 +347,162 @@ namespace PokerShowdown
         public static bool operator < (Hand a, Hand b)
         {
 
-            if (a.IsFlush() && b.IsFlush())
+            if (b.IsFlush())
             {
-                if (a.HighCard() < b.HighCard())
+                if (a.IsFlush())
                 {
-                    return true;
+                    for(int i = 0; i < 5; i++)
+                    {
+                        if (a.getCard(i) > b.getCard(i))
+                        {
+                            return false;
+                        }
+                    }
+                    return false;
+                   
                 }
                 return true;
-            }
-            if (a.IsThreeofKind() && b.IsThreeofKind())
+            }else if (a.IsFlush())
             {
-                if (a.GetDouplicate() < b.GetDouplicate())
+                return false;
+            }
+            if (b.IsThreeofKind())
+            {
+                if (a.IsThreeofKind())
                 {
-                    return true;
+                    if (a.GetDouplicate() > b.GetDouplicate())
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (a.getCard(i) > b.getCard(i))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    return false;
                 }
                 return true;
-            }
-            if (a.IsOnePair() && b.IsOnePair())
+            }else if (a.IsThreeofKind())
             {
-                if (a.GetDouplicate() < b.GetDouplicate())
+                return false;
+            }
+            if (b.IsOnePair())
+            {
+                if (a.IsOnePair())
                 {
-                    return true;
+                    if (a.GetDouplicate() > b.GetDouplicate())
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (a.getCard(i) > b.getCard(i))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                    return false;
                 }
-                
+                return true;
 
+            }
+            else if (a.IsOnePair())
+            {
+                return false;
+            }
 
+            else if(a.HighCard() < b.HighCard())
+            {
+                return true;
             }
             return false;
         }
         public static bool operator > (Hand a, Hand b)
         {
-            if(a.IsFlush() && b.IsFlush())
+            if (a.IsFlush())
             {
-                if(a.HighCard() > b.HighCard())
+                if (b.IsFlush())
                 {
-                    return true;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        if (a.getCard(i) < b.getCard(i))
+                        {
+                            return false;
+                        }
+                    }
+
                 }
                 return true;
             }
-            if(a.IsThreeofKind() && b.IsThreeofKind())
+            else if (b.IsFlush())
             {
-                if (a.GetDouplicate() > b.GetDouplicate())
+                return false;
+            }
+            if (a.IsThreeofKind())
+            {
+                if (b.IsThreeofKind())
                 {
-                    return true;
+                    if (a.GetDouplicate() < b.GetDouplicate())
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (a.getCard(i) > b.getCard(i))
+                            {
+                                return false;
+                            }
+                        }
+                    }
                 }
                 return true;
             }
-            if(a.IsOnePair() && b.IsOnePair())
+            else if (b.IsThreeofKind())
             {
-                if (a.GetDouplicate() > b.GetDouplicate())
+                return false;
+            }
+            if (b.IsOnePair())
+            {
+                if (a.IsOnePair())
                 {
-                    return true;
+                    if (a.GetDouplicate() > b.GetDouplicate())
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            if (a.getCard(i) > b.getCard(i))
+                            {
+                                return false;
+                            }
+                        }
+                    }
                 }
+                return true;
 
             }
-            return true;
+            else if (a.IsOnePair())
+            {
+                return false;
+            }
+
+            else if (a.HighCard() < b.HighCard())
+            {
+                return false;
+            }
+            return false;
         }
         public static bool operator !=(Hand a, Hand b)
         {
