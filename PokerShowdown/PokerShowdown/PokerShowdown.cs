@@ -87,7 +87,7 @@ namespace PokerShowdown
             this.name = _name;
             if(_hand.Count != 5)
             {
-                throw new Exception("Not the correct number of cards");
+                throw new ArgumentException("Not the correct number of cards");
             }
             this.hand = new Hand(_hand);
         }
@@ -532,11 +532,11 @@ namespace PokerShowdown
             this.suites =  new List<char>();
             
             if (_rank <= 1 || _rank > 14) {
-                throw new Exception("Rank out of range");
+                throw new ArgumentException("Rank out of range");
             }
 
             if(_suite != 'D' && _suite != 'C' && _suite != 'S'&& _suite != 'H'){
-                throw new Exception("Suite not valid");
+                throw new ArgumentException("Suite not valid");
             }
             this.suite = _suite;
             this.rank = _rank;
