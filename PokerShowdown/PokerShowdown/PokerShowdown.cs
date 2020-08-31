@@ -55,7 +55,7 @@ namespace PokerShowdown
                             break;
 
                             //if the next player is a higher rank then we know that all other 
-                            //winners are not winners, so the winner list get cleared, and this new one gets added
+                            //winners are not winners, so the winner list gets cleared, and this new one gets added
 
                         }else if (winner.GetHand() == player.GetHand())
                         {
@@ -169,7 +169,7 @@ namespace PokerShowdown
                     return card;
                 }
             }
-            return new Card(-1,' ');
+            return new Card();
         }
         public Card getCard(int i)
         {
@@ -519,7 +519,7 @@ namespace PokerShowdown
     {
         private int rank;
         private Char suite;
-        
+        private List<Char> suites;
         public Card()
         {
             rank = -1;
@@ -529,6 +529,15 @@ namespace PokerShowdown
 
         public Card(int _rank, char _suite)
         {
+            this.suites =  new List<char>();
+            
+            if (_rank <= 1 || _rank > 14) {
+                throw new Exception("Rank out of range");
+            }
+
+            if(_suite != 'D' && _suite != 'C' && _suite != 'S'&& _suite != 'H'){
+                throw new Exception("Suite not valid");
+            }
             this.suite = _suite;
             this.rank = _rank;
         }
